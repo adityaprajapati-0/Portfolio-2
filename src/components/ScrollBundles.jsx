@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef } from 'react'
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 
 const TECH_ITEMS = [
   'React', 'Node.js', 'Python', 'JavaScript', 'TypeScript',
@@ -20,53 +21,21 @@ const BENTO_IMAGES = [
 export default function ScrollBundles() {
   const sectionRef = useRef(null)
 
-  useEffect(() => {
-    let ticking = false
-    let isVisible = false
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  })
 
-    const updateStyles = () => {
-      if (!sectionRef.current || !isVisible) {
-        ticking = false
-        return
-      }
+  // Smooth the scroll progress for buttery movement
+  const smoothProgress = useSpring(scrollYProgress, {
+    damping: 15,
+    stiffness: 100,
+    restDelta: 0.001
+  })
 
-      const scrollY = window.scrollY
-      const strip1Offset = scrollY * 0.15
-      const strip2Offset = -(scrollY * 0.12)
-
-      sectionRef.current.style.setProperty('--strip1-x', `${-strip1Offset}px`)
-      sectionRef.current.style.setProperty('--strip2-x', `${-strip2Offset}px`)
-      
-      ticking = false
-    }
-
-    const onScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(updateStyles)
-        ticking = true
-      }
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisible = entry.isIntersecting
-        if (isVisible) {
-          window.addEventListener('scroll', onScroll, { passive: true })
-          onScroll()
-        } else {
-          window.removeEventListener('scroll', onScroll)
-        }
-      },
-      { threshold: 0.01 }
-    )
-
-    if (sectionRef.current) observer.observe(sectionRef.current)
-
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      observer.disconnect()
-    }
-  }, [])
+  // Transforms for the strips
+  const x1 = useTransform(smoothProgress, [0, 1], [0, -400])
+  const x2 = useTransform(smoothProgress, [0, 1], [-200, 200])
 
   // Build repeated items for continuous feel
   const techRow = [...TECH_ITEMS, ...TECH_ITEMS, ...TECH_ITEMS, ...TECH_ITEMS]
@@ -76,28 +45,28 @@ export default function ScrollBundles() {
     <section className="tilted-strips-section" ref={sectionRef}>
       {/* Strip 1: Tech text items — tilted, moves right on scroll */}
       <div className="tilted-strip strip-1" style={{ transform: 'rotate(-3deg) scale(1.08)' }}>
-        <div
+        <motion.div
           className="tilted-strip-track"
-          style={{ transform: 'translateX(var(--strip1-x, 0))' }}
+          style={{ x: x1 }}
         >
           {techRow.map((name, i) => (
             <span className="strip-text-item" key={`t1-${i}`}>{name}</span>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Strip 2: Image items — tilted opposite, moves left on scroll */}
       <div className="tilted-strip strip-2" style={{ transform: 'rotate(2.5deg) scale(1.08)' }}>
-        <div
+        <motion.div
           className="tilted-strip-track"
-          style={{ transform: 'translateX(var(--strip2-x, 0))' }}
+          style={{ x: x2 }}
         >
           {imgRow1.map((item, i) => (
             <div className="strip-img-item" key={`s2-${i}`}>
               <img src={item.src} alt={item.alt} loading="lazy" />
             </div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

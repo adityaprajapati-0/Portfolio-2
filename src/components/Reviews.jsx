@@ -1,4 +1,5 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef } from 'react'
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 
 const REVIEWS_TOP = [
   { name: "John Smith", role: "CEO @ TechFlow", content: "Exceptional quality and attention to detail. The 3D models were exactly what we needed." },
@@ -17,57 +18,23 @@ const REVIEWS_BOTTOM = [
 export default function Reviews() {
   const containerRef = useRef(null)
 
-  useEffect(() => {
-    let ticking = false
-    let isVisible = false
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  })
 
-    const updateStyles = () => {
-      if (!containerRef.current || !isVisible) {
-        ticking = false
-        return
-      }
+  // Spring for ultra-smooth transforms
+  const smoothProgress = useSpring(scrollYProgress, {
+    damping: 20,
+    stiffness: 100,
+    restDelta: 0.001
+  })
 
-      const rect = containerRef.current.getBoundingClientRect()
-      const scrollProgress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)))
-      
-      // Strip 1: Moves RIGHT (-300 to 300)
-      const x1 = -300 + (600 * scrollProgress)
-      // Strip 2: Moves LEFT (300 to -300)
-      const x2 = 300 - (600 * scrollProgress)
-
-      containerRef.current.style.setProperty('--review-x1', `${x1}px`)
-      containerRef.current.style.setProperty('--review-x2', `${x2}px`)
-      
-      ticking = false
-    }
-
-    const onScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(updateStyles)
-        ticking = true
-      }
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisible = entry.isIntersecting
-        if (isVisible) {
-          window.addEventListener('scroll', onScroll, { passive: true })
-          onScroll()
-        } else {
-          window.removeEventListener('scroll', onScroll)
-        }
-      },
-      { threshold: 0.05 }
-    )
-
-    if (containerRef.current) observer.observe(containerRef.current)
-
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      observer.disconnect()
-    }
-  }, [])
+  // Strip 1: Moves RIGHT (-300 to 300)
+  const x1 = useTransform(smoothProgress, [0, 1], [-300, 300])
+  
+  // Strip 2: Moves LEFT (300 to -300)
+  const x2 = useTransform(smoothProgress, [0, 1], [300, -300])
 
   return (
     <section className="reviews-section" ref={containerRef} id="reviews">
@@ -77,7 +44,7 @@ export default function Reviews() {
         <div className="reviews-strips">
           {/* Tilted UP Stripe (Moves Right) */}
           <div className="reviews-strip strip-up">
-            <div className="reviews-track" style={{ transform: 'translateX(var(--review-x1, 0))' }}>
+            <motion.div className="reviews-track" style={{ x: x1 }}>
               {[...REVIEWS_TOP, ...REVIEWS_TOP].map((review, i) => (
                 <div key={i} className="review-card">
                   <p className="review-content">"{review.content}"</p>
@@ -87,12 +54,12 @@ export default function Reviews() {
                   </div>
                 </div>
               ))}
-            </div>
+            </motion.div>
           </div>
 
           {/* Tilted DOWN Stripe (Moves Left) */}
           <div className="reviews-strip strip-down">
-            <div className="reviews-track" style={{ transform: 'translateX(var(--review-x2, 0))' }}>
+            <motion.div className="reviews-track" style={{ x: x2 }}>
               {[...REVIEWS_BOTTOM, ...REVIEWS_BOTTOM].map((review, i) => (
                 <div key={i} className="review-card">
                   <p className="review-content">"{review.content}"</p>
@@ -102,7 +69,7 @@ export default function Reviews() {
                   </div>
                 </div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

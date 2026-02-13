@@ -33,6 +33,13 @@ export default function TechIcons() {
     stiffness: 400
   })
 
+  // Smoothing the scroll progress itself for ultra-smooth movement
+  const smoothProgress = useSpring(scrollYProgress, {
+    damping: 20,
+    stiffness: 100,
+    restDelta: 0.001
+  })
+
   // Base auto-scroll + speed boost from scrolling
   // We use a CSS animation for the base loop and Framer Motion for the boost
   const velocityFactor = useTransform(smoothVelocity, [0, 5], [1, 5], {
@@ -44,7 +51,7 @@ export default function TechIcons() {
       <div className="tech-icons-marquee">
         <motion.div 
           className="tech-icons-track"
-          style={{ x: useTransform(scrollYProgress, [0, 1], [0, -1000]) }}
+          style={{ x: useTransform(smoothProgress, [0, 1], [0, -1000]) }}
         >
           {doubledIcons.map((tech, index) => (
             <motion.div 

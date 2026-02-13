@@ -19,7 +19,13 @@ export default function Certificates() {
     offset: ["start end", "end start"]
   })
   
-  const x = useTransform(scrollYProgress, [0, 1], [0, -1200])
+  const smoothProgress = useSpring(scrollYProgress, {
+    damping: 20,
+    stiffness: 100,
+    restDelta: 0.001
+  })
+
+  const x = useTransform(smoothProgress, [0, 1], [0, -1200])
 
   return (
     <section className="certificates section-wrapper" id="certificates" ref={containerRef}>
