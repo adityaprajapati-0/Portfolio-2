@@ -11,7 +11,9 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [isLight, setIsLight] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') === 'light'
+      const saved = localStorage.getItem('theme')
+      if (saved) return saved === 'light'
+      return window.matchMedia('(prefers-color-scheme: light)').matches
     }
     return false
   })

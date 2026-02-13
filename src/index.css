@@ -372,7 +372,11 @@ img {
 
 .hero-pill-btn {
     background: #ffffff;
-    padding: 16px 45px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 18px 45px;
     border: none;
     border-radius: 100px;
     font-family: var(--font-heading);
@@ -380,7 +384,7 @@ img {
     font-weight: 700;
     color: #000000;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -390,24 +394,36 @@ img {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
-    width: 100%;
+    left: -150%;
+    width: 150%;
     height: 100%;
     background: linear-gradient(90deg,
             transparent,
-            rgba(0, 0, 0, 0.05),
+            rgba(255, 255, 255, 0.8),
             transparent);
+    transform: skewX(-20deg);
     transition: none;
     animation: btnShimmer 3s infinite;
 }
 
+.light-mode .hero-pill-btn::before {
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(0, 0, 0, 0.1),
+            transparent);
+}
+
 @keyframes btnShimmer {
     0% {
-        left: -100%;
+        left: -150%;
+    }
+
+    50% {
+        left: 150%;
     }
 
     100% {
-        left: 100%;
+        left: 150%;
     }
 }
 
@@ -427,10 +443,11 @@ img {
 .cta-button {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 12px;
     margin-top: 36px;
     background: #ffffff;
-    padding: 16px 45px;
+    padding: 18px 45px;
     border: none;
     border-radius: 100px;
     font-family: var(--font-heading);
@@ -438,7 +455,7 @@ img {
     font-weight: 700;
     color: #000000;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -450,14 +467,23 @@ img {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
-    width: 100%;
+    left: -150%;
+    width: 150%;
     height: 100%;
     background: linear-gradient(90deg,
             transparent,
-            rgba(0, 0, 0, 0.05),
+            rgba(255, 255, 255, 0.8),
             transparent);
+    transform: skewX(-20deg);
+    transition: none;
     animation: btnShimmer 3s infinite;
+}
+
+.light-mode .cta-button::before {
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(0, 0, 0, 0.1),
+            transparent);
 }
 
 .cta-button:hover {
