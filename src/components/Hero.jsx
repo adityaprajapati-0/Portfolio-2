@@ -113,7 +113,8 @@ export default function Hero() {
             <div className="mascot-relative-container">
               <motion.img
                 src="/hero-mascot/mascot-1.png"
-                alt="Mascot"
+                alt="Aditya Prajapati - Tech Lead and Fullstack Developer mascot"
+                title="Aditya Prajapati (adixdd)"
                 initial={{ y: 50, opacity: 0, translateZ: 0 }}
                 animate={{ 
                   y: [0, -15, 0], 

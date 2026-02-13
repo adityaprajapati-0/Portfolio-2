@@ -2,9 +2,10 @@ import React, { useRef, useEffect, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import HollowText from './HollowText'
 
-const ABOUT_TEXT = `I am a passionate tech enthusiast who loves creating innovative projects.
-I specialize in branding, web design, and high-fidelity digital experiences.
+const ABOUT_TEXT = `I am Aditya Prajapati (adixdd), the creator of adixdd.in and the Tech Lead at GharBazaar.in. 
+As a Fullstack Web Developer and Web Designer, I specialize in branding, high-fidelity digital experiences, and achieving the highest levels of web optimization.
 
+I was recently honored with the Best Employee Award 2025 for my contributions to technical excellence.
 Let's create something extraordinary together.`
 
 export default function About() {

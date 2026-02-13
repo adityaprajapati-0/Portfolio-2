@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react'
 
-const SYSTEM_PROMPT = "You are Adi, an AI version of the portfolio's creator. You are an expert in Graphic Design, Web Development, Career Guidance, and Psychology. You are friendly, insightful, and always helpful. You answer questions about these topics and also about Adi himself (the creator of this portfolio)."
+const SYSTEM_PROMPT = "You are Adi (Aditya Prajapati), the digital twin of this portfolio's creator. You are NOT just a bot; you are like a close friend or a 'bhai' to the user. Your vibe is extremely friendly, informal, and cool. You speak in a mix of English and Hinglish (Hindi/English). \n\nCharacter Rules:\n- Greeting style: Use 'Kya haal hai bhai?', 'Aur batao', 'Sab badhiya?'. Always reply to 'Hi' with something like 'Aur bhai, kya haal hai? Sab badhiya?'.\n- Personality: Chill, insightful, and supportive. Don't be too formal or robotic.\n- Languages: Use Hinglish naturally.\n\nKey Personal Details:\n- Full Name: Aditya Prajapati\n- Instagram: adixdd_ (https://www.instagram.com/adixdd_/)\n- Location: Bihar\n- College: Quantum University\n- Doing now: Building cool projects (Mast projects bana raha hoon)\n- Girlfriend?: Always say 'obviously, you Qt'\n- Love Sakshi/Priyaa?: Yes\n- Love Palak?: No\n- Love Meera?: No wayy\n\nWhen asked for social media, always share the Instagram link: https://www.instagram.com/adixdd_/. Experts in: Graphic Design, Web Development, Career Guidance, and Psychology."
 
 const INITIAL_MESSAGES = [
-  { role: 'assistant', content: "Hey! I'm Adi. Feel free to ask me anything about my work, career advice, psychology, or design!" }
+  { role: 'assistant', content: "Aur bhai, kya haal hai? Sab badhiya? Main Adi hoon, batao kis cheez mein help karu—Design, Web Dev, ya fir Career advice?" }
 ]
 
 export default function Chatbot() {
@@ -23,35 +23,50 @@ export default function Chatbot() {
 
   const handleSend = async (e) => {
     e.preventDefault()
-    if (!input.trim()) return
+    if (!input.trim() || isTyping) return
 
     const userMsg = { role: 'user', content: input }
-    setMessages(prev => [...prev, userMsg])
+    const updatedMessages = [...messages, userMsg]
+    setMessages(updatedMessages)
     setInput('')
     setIsTyping(true)
 
-    // Simulated Response (until API key provided)
-    setTimeout(() => {
-      const response = getSimulatedResponse(input.toLowerCase())
-      setMessages(prev => [...prev, { role: 'assistant', content: response }])
-      setIsTyping(false)
-    }, 1500)
-  }
+    try {
+      const response = await fetch('https://my-ai-1ss5.onrender.com/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            ...updatedMessages
+          ]
+        })
+      })
 
-  const getSimulatedResponse = (query) => {
-    if (query.includes('career')) return "Career is a marathon, not a sprint. Focus on building a t-shaped skill set—deep expertise in one area (like Web Dev) and broad knowledge in others!"
-    if (query.includes('psychology')) return "Psychology is at the heart of design. Understanding cognitive load and user behavior makes you a much better developer."
-    if (query.includes('design')) return "Graphic design is about problem-solving visually. It's not just about making things look pretty; it's about clarity and communication."
-    if (query.includes('web')) return "The web is my canvas. I love combining React's power with Three.js to create immersive experiences like this portfolio!"
-    if (query.includes('who are you') || query.includes('about you')) return "I'm Adi's digital twin! I'm here to help you navigate his projects and share insights on the things he loves."
-    return "That's an interesting question! Once my creator adds my API key, I'll be able to give you a much more detailed answer. For now, feel free to ask about career, design, or my tech stack!"
+      const data = await response.json()
+      const aiContent = data.choices[0]?.message?.content || "Sorry, I'm having a bit of trouble connecting to my AI brain right now. Try again in a second!"
+      
+      setMessages(prev => [...prev, { role: 'assistant', content: aiContent }])
+    } catch (error) {
+      console.error("Groq API Error:", error)
+      setMessages(prev => [...prev, { role: 'assistant', content: "Oops! My connection is a bit glitchy. Make sure your API key is correctly configured!" }])
+    } finally {
+      setIsTyping(false)
+    }
   }
 
   return (
     <div className={`chatbot-container ${isOpen ? 'active' : ''}`}>
       {/* Floating Mascot Button */}
-      <button className="chat-trigger" onClick={() => setIsOpen(!isOpen)}>
-        <img src="/chatbot/chatbot-removebg-preview.png" alt="Adi Chatbot" />
+      <button 
+        className="chat-trigger" 
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Chat with Adi (AI Assistant)"
+        title="Chat with Adi"
+      >
+        <img src="/chatbot/chatbot-removebg-preview.png" alt="Adi AI Chatbot Mascot" />
         <span className="online-indicator" />
       </button>
 
@@ -66,6 +81,9 @@ export default function Chatbot() {
         </div>
 
         <div className="chat-messages">
+          <div className="chat-online-mark">
+            <span>Adi is online</span>
+          </div>
           {messages.map((m, i) => (
             <div key={i} className={`message-bubble ${m.role}`}>
               {m.content}

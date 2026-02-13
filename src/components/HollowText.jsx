@@ -51,11 +51,11 @@ export default function HollowText({ children, className = '' }) {
   }, [])
 
   return (
-    <div ref={ref} className={`section-heading ${className}`}>
-      <span className="outline-layer">{children}</span>
+    <h2 ref={ref} className={`section-heading ${className}`}>
+      <span className="outline-layer" aria-hidden="true">{children}</span>
       <span className="fill-layer" style={{ clipPath: `inset(${(1 - fillPercent) * 100}% 0 0 0)` }}>
         {children}
       </span>
-    </div>
+    </h2>
   )
 }
