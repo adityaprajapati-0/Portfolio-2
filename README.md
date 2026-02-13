@@ -1,4 +1,4 @@
-# 🌌 adixdd | Aditya Prajapati Portfolio
+ Aditya Prajapati Portfolio
 
 <p align="center">
   <a href="https://adixdd.in">
