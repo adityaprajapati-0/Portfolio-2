@@ -8,18 +8,46 @@ export default function HollowText({ children, className = '' }) {
     const el = ref.current
     if (!el) return
 
+    let ticking = false
+    let isVisible = false
+
     const handleScroll = () => {
+      if (!isVisible) {
+        ticking = false
+        return
+      }
       const rect = el.getBoundingClientRect()
       const windowH = window.innerHeight
       const entryPoint = windowH
       const centerPoint = windowH * 0.4
       const progress = 1 - (rect.top - centerPoint) / (entryPoint - centerPoint)
       setFillPercent(Math.max(0, Math.min(1, progress)))
+      ticking = false
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(handleScroll)
+        ticking = true
+      }
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting
+      if (isVisible) {
+        window.addEventListener('scroll', onScroll, { passive: true })
+        onScroll()
+      } else {
+        window.removeEventListener('scroll', onScroll)
+      }
+    })
+
+    observer.observe(el)
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      observer.disconnect()
+    }
   }, [])
 
   return (

@@ -30,42 +30,65 @@ const PROJECTS = [
 
 export default function Projects() {
   const sectionRef = useRef(null)
-  const [cardStyles, setCardStyles] = useState(PROJECTS.map(() => ({ scale: 1, opacity: 1 })))
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return
-      const wrappers = sectionRef.current.querySelectorAll('.stack-card-wrapper')
-      const newStyles = []
+    let ticking = false
+    let isVisible = false
 
+    const updateStyles = () => {
+      if (!sectionRef.current || !isVisible) {
+        ticking = false
+        return
+      }
+
+      const wrappers = sectionRef.current.querySelectorAll('.stack-card-wrapper')
+      
       wrappers.forEach((wrapper, i) => {
-        const rect = wrapper.getBoundingClientRect()
         if (i < PROJECTS.length - 1) {
           const nextWrapper = wrappers[i + 1]
           if (nextWrapper) {
             const nextRect = nextWrapper.getBoundingClientRect()
-            // How much the next card has overlapped this one
             const stickyTop = 80 + i * 5
-            const nextStickyTop = 80 + (i + 1) * 5
             const overlap = Math.max(0, Math.min(1, (stickyTop + 50 - nextRect.top) / 300))
-            newStyles.push({
-              scale: 1 - overlap * 0.06,
-              opacity: 1 - overlap * 0.5,
-            })
-          } else {
-            newStyles.push({ scale: 1, opacity: 1 })
+            
+            const card = wrapper.querySelector('.stack-card')
+            if (card) {
+              card.style.setProperty('--project-scale', 1 - overlap * 0.06)
+              card.style.setProperty('--project-opacity', 1 - overlap * 0.5)
+            }
           }
-        } else {
-          newStyles.push({ scale: 1, opacity: 1 })
         }
       })
-
-      setCardStyles(newStyles)
+      
+      ticking = false
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(updateStyles)
+        ticking = true
+      }
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting
+        if (isVisible) {
+          window.addEventListener('scroll', onScroll, { passive: true })
+          onScroll()
+        } else {
+          window.removeEventListener('scroll', onScroll)
+        }
+      },
+      { threshold: 0.05 }
+    )
+
+    if (sectionRef.current) observer.observe(sectionRef.current)
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      observer.disconnect()
+    }
   }, [])
 
   return (
@@ -84,14 +107,7 @@ export default function Projects() {
               marginBottom: i < PROJECTS.length - 1 ? '15vh' : '5vh',
             }}
           >
-            <div
-              className="stack-card"
-              style={{
-                transform: `scale(${cardStyles[i]?.scale ?? 1})`,
-                opacity: cardStyles[i]?.opacity ?? 1,
-                transformOrigin: 'center top',
-              }}
-            >
+            <div className="stack-card">
               {/* Card Header */}
               <div className="stack-card-header">
                 <div className="stack-card-meta">
