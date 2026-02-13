@@ -1404,6 +1404,8 @@ textarea.field-input {
 .reviews-track {
     display: flex;
     gap: 40px;
+    will-change: transform;
+    transform: translateZ(0);
     padding: 20px;
 }
 
@@ -1528,6 +1530,15 @@ textarea.field-input {
     font-size: 0.85rem;
     color: var(--accent);
     font-weight: 600;
+}
+
+.tilted-strip-track {
+    display: flex;
+    white-space: nowrap;
+    gap: 40px;
+    padding: 10px 0;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .cert-skills {
