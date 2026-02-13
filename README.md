@@ -1,76 +1,63 @@
-# 🌌 adixdd | Aditya Prajapati Portfolio — Maximum Optimized
+# 🌌 adixdd | Aditya Prajapati Portfolio
+
+<p align="center">
+  <a href="https://adixdd.in">
+    <img src="https://img.shields.io/badge/Live%20Preview-adixdd.in-blueviolet?style=for-the-badge&logo=vercel" alt="Live Preview" />
+  </a>
+</p>
 
 <p align="center">
   <b>Tech Lead at GharBazaar.in • Fullstack Developer • Web Designer</b>
 </p>
 
+---
+
+## 🚀 The Experience
+
+A high-performance, space-themed digital odyssey. This portfolio is a demonstration of **maximum web optimization** and **advanced AI integration**.
+
+### 🤖 "Adi" — Your Personal AI Mascot
+
 <p align="center">
-  <img src="https://adixdd.in/logo/Profile.jpeg" width="150" style="border-radius: 50%" />
+  <img src="https://raw.githubusercontent.com/adityaprajapati-0/Portfolio-2/main/public/chatbot/chatbot-removebg-preview.png" width="200" alt="Adi AI" />
+</p>
+
+Integrated a custom-trained AI mascot powered by **Llama 3**.
+
+- **Vibe**: Unfiltered, friendly, and informal (Hinglish support).
+- **Secure Architecture**: Powered by a [Secure Backend Proxy](https://github.com/adityaprajapati-0/My-Ai).
+
+---
+
+## 🔥 Visual Highlights
+
+### ⚡ 60fps Sticky Stacking
+
+Experience butter-smooth card transitions with zero scroll lag.
+
+<p align="center">
+  <img src="public/docs/stack-animation.webp" width="800" alt="Sticky Stacking Animation" />
+</p>
+
+### 📱 Perfect Mobile Polish
+
+Retuned specifically for the smallest screens with hardware-accelerated layers.
+
+<p align="center">
+  <img src="public/docs/mobile-preview.webp" width="400" alt="Mobile Hero Section" />
 </p>
 
 ---
 
-## 🚀 The Vision
+## ✨ Features at a Glance
 
-A high-performance, space-themed digital odyssey built with **React**, **Framer Motion**, and **Vite**. This portfolio isn't just a showcase—it's a demonstration of **maximum web optimization** and **advanced AI integration**.
-
-## ✨ Key Features
-
-### 🤖 1. "Adi" — Your Personal AI Bhai
-
-Integrated a custom-trained AI mascot, **Adi**, powered by **Llama 3 (Groq)**.
-
-- **Personality**: Unfiltered, friendly, and informal (Hinglish support).
-- **Secure**: Communicates through a dedicated [Backend Proxy](https://github.com/adityaprajapati-0/My-Ai) to protect secrets.
-- **Glassmorphism UI**: Beautiful, interactive chat interface with premium animations.
-
-### ⚡ 2. Aggressive Performance Overhaul (60fps)
-
-Engineered for ultimate smoothness on mobile and low-end devices.
-
-- **Hardware Acceleration**: GPU compositor layers utilized for all heavy animations.
-- **RAF Logic**: Decoupled scroll animations from React state to eliminate "scroll lag".
-- **Intersection Observer**: Automatic pausing of off-screen components to save 100% CPU/GPU resources.
-
-### 🔍 3. Maximum SEO Optimization
-
-Dominating search results for the **"adixdd"** brand.
-
-- **Auto-Correct Defense**: Saturated keyword signals to differentiate from "adhd" typos.
-- **Structured Data**: Full JSON-LD (Schema.org) integration for a rich Knowledge Graph presence.
-- **Domain Focus**: Perfectly tuned for `adixdd.in`.
-
-### 📱 4. Mobile-First Excellence
-
-- **Perfect Scaling**: 44px+ touch targets and optimized viewport paddings.
-- **Single-Track Hero**: Redesigned hero section for immediate impact on small screens.
-- **Sticky Stacking**: Premium CSS-based project card stacking effect.
-
-## 🛠️ Tech Stack
-
-- **Frontend**: React + Vite
-- **Animations**: Framer Motion + standard RAF
-- **Styling**: Vanilla CSS (Premium Glassmorphism)
-- **AI Backend**: Node.js + Express (Groq API)
-- **Fonts**: Outfit (Global), Oswald (Headings), Inter (Details)
-
-## 🏁 Quick Start
-
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/adityaprajapati-0/Portfolio-2.git
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Run dev server:
-   ```bash
-   npm run dev
-   ```
+- **Maximum SEO**: Saturated brand signals to dominate "adixdd" search results.
+- **RAF Rendering**: Animations decoupled from React state for zero GPU stutter.
+- **Glassmorphism UI**: High-fidelity design with premium translucency.
+- **Hardware Layering**: GPU-composited components for instant response.
 
 ---
 
 <p align="center">
-  Built with ❤️ by <b>adixdd</b> (Aditya Prajapati)
+  🌌 Developed by <b>adixdd</b>
 </p>
