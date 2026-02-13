@@ -29,24 +29,6 @@ Integrated a custom-trained AI mascot powered by **Llama 3**.
 
 ---
 
-## 🔥 Visual Highlights
-
-### ⚡ 60fps Sticky Stacking
-
-Experience butter-smooth card transitions with zero scroll lag.
-
-<p align="center">
-  <img src="public/docs/stack-animation.webp" width="800" alt="Sticky Stacking Animation" />
-</p>
-
-### 📱 Perfect Mobile Polish
-
-Retuned specifically for the smallest screens with hardware-accelerated layers.
-
-<p align="center">
-  <img src="public/docs/mobile-preview.webp" width="400" alt="Mobile Hero Section" />
-</p>
-
 ---
 
 ## ✨ Features at a Glance
