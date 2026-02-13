@@ -2,11 +2,9 @@ import React, { useRef, useEffect, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import HollowText from './HollowText'
 
-const ABOUT_TEXT = `I am Aditya Prajapati (adixdd), the creator of adixdd.in and the Tech Lead at GharBazaar.in. 
-As a Fullstack Web Developer and Web Designer, I specialize in branding, high-fidelity digital experiences, and achieving the highest levels of web optimization.
+const ABOUT_TEXT = `I am Aditya Prajapati (adixdd), Tech Lead at GharBazaar.in and a Fullstack Developer specializing in high-fidelity digital experiences. 
 
-I was recently honored with the Best Employee Award 2025 for my contributions to technical excellence.
-Let's create something extraordinary together.`
+Honored with the Best Employee Award 2025, I focus on premium design and maximum web optimization. Let's build something extraordinary.`
 
 export default function About() {
   const containerRef = useRef(null)
