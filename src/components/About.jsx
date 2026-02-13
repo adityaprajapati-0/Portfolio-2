@@ -4,7 +4,7 @@ import HollowText from './HollowText'
 
 const ABOUT_TEXT = `I am Aditya Prajapati (adixdd), Tech Lead at GharBazaar.in and a Fullstack Developer specializing in high-fidelity digital experiences. 
 
-Honored with the Best Employee Award 2025, I focus on premium design and maximum web optimization. Let's build something extraordinary.`
+Focused on premium design and maximum web optimization, I strive to create extraordinary digital solutions.`
 
 export default function About() {
   const containerRef = useRef(null)
