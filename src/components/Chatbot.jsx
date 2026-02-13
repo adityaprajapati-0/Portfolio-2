@@ -13,9 +13,13 @@ export default function Chatbot() {
   const [isTyping, setIsTyping] = useState(false)
   const messagesEndRef = useRef(null)
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
+  useEffect(() => {
+    // Check if backend is alive
+    fetch('https://my-ai-1ss5.onrender.com/api/health')
+      .then(r => r.json())
+      .then(data => console.log("Backend Health:", data))
+      .catch(err => console.error("Backend unreachable:", err));
+  }, []);
 
   useEffect(() => {
     scrollToBottom()
@@ -45,13 +49,19 @@ export default function Chatbot() {
         })
       })
 
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error("Backend Error Response:", response.status, errorData);
+        throw new Error(`Server returned ${response.status}: ${errorData.error || errorData.message || 'Unknown error'}`);
+      }
+
       const data = await response.json()
       const aiContent = data.choices[0]?.message?.content || "Sorry, I'm having a bit of trouble connecting to my AI brain right now. Try again in a second!"
       
       setMessages(prev => [...prev, { role: 'assistant', content: aiContent }])
     } catch (error) {
-      console.error("Groq API Error:", error)
-      setMessages(prev => [...prev, { role: 'assistant', content: "Oops! My connection is a bit glitchy. Make sure your API key is correctly configured!" }])
+      console.error("Chatbot Fetch Error:", error.message);
+      setMessages(prev => [...prev, { role: 'assistant', content: `Oops! Connecting to my brain failed (${error.message}). Please check the console for details!` }])
     } finally {
       setIsTyping(false)
     }
