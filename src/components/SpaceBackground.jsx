@@ -28,13 +28,20 @@ export default function SpaceBackground() {
     window.addEventListener('resize', resize)
 
     // Initialize stars
+    const getStarColors = () => {
+      const isLightMode = document.body.classList.contains('light-mode')
+      return isLightMode 
+        ? ['#555555', '#777777', '#999999', '#bbbbbb'] // Darker stars for light mode
+        : ['#ffffff', '#cce5ff', '#ffe0cc', '#ffd6e7'] // Bright stars for dark mode
+    }
+
     starsRef.current = Array.from({ length: STAR_COUNT }, () => ({
       x: Math.random() * w - w / 2,
       y: Math.random() * h - h / 2,
       z: Math.random() * 1000 + 1,
       size: Math.random() * 1.5 + 0.3,
       speed: Math.random() * 0.3 + 0.05,
-      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      color: '', // Will be set dynamically
       twinkle: Math.random() * Math.PI * 2,
     }))
 
@@ -56,6 +63,7 @@ export default function SpaceBackground() {
       const mx = mouseRef.current.x * 30
       const my = mouseRef.current.y * 30
       const scrollOffset = scrollRef.current * 0.15
+      const currentColors = getStarColors()
 
       for (let i = 0; i < starsRef.current.length; i++) {
         const star = starsRef.current[i]
@@ -85,7 +93,7 @@ export default function SpaceBackground() {
 
         ctx.beginPath()
         ctx.arc(sx, sy, Math.max(0.3, radius), 0, Math.PI * 2)
-        ctx.fillStyle = star.color
+        ctx.fillStyle = currentColors[i % currentColors.length]
         ctx.globalAlpha = alpha
         ctx.fill()
       }
