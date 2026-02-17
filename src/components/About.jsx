@@ -55,24 +55,49 @@ export default function About() {
       <div className="about-inner">
         
         {/* Animated Side Elements - Exactly like reference */}
-        {decorativeElements.map((el) => (
-          <motion.div
-            key={el.id}
-            initial={{ x: el.xOut, opacity: 0 }}
-            animate={isInView ? { x: el.xIn, opacity: 1 } : { x: el.xOut, opacity: 0 }}
-            transition={{ duration: 1.5, delay: el.delay, ease: [0.16, 1, 0.3, 1] }}
-            className={`about-side-element-fixed`}
-            style={{ 
-              top: el.top, 
-              [el.side]: '0',
-              position: 'absolute',
-              zIndex: 1,
-              pointerEvents: 'none'
-            }}
-          >
-            <HighFidelityObject type={el.type} />
-          </motion.div>
-        ))}
+        {decorativeElements.map((el) => {
+          const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+          const mobileScale = isMobile ? 0.6 : 1;
+          const rotationAngle = el.side === 'left' ? -25 : 25;
+
+          return (
+            <motion.div
+              key={el.id}
+              initial={{ 
+                x: el.side === 'left' ? '-150%' : '150%', 
+                opacity: 0,
+                rotate: rotationAngle,
+                scale: mobileScale * 0.8
+              }}
+              animate={isInView ? { 
+                x: el.xIn, 
+                opacity: 1,
+                rotate: 0,
+                scale: mobileScale
+              } : { 
+                x: el.side === 'left' ? '-150%' : '150%', 
+                opacity: 0,
+                rotate: rotationAngle,
+                scale: mobileScale * 0.8
+              }}
+              transition={{ 
+                duration: 1.8, 
+                delay: el.delay, 
+                ease: [0.16, 1, 0.3, 1] 
+              }}
+              className="about-side-element-fixed"
+              style={{ 
+                top: el.top, 
+                [el.side]: '0',
+                position: 'absolute',
+                zIndex: 1,
+                pointerEvents: 'none'
+              }}
+            >
+              <HighFidelityObject type={el.type} />
+            </motion.div>
+          );
+        })}
 
         <HollowText>About Me</HollowText>
 
