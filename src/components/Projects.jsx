@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
+import { useLenis } from '@studio-freight/react-lenis'
 import HollowText from './HollowText'
 
 const TECH_MAP = {
@@ -15,7 +16,7 @@ const TECH_MAP = {
   'Three.js': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/threejs/threejs-original.svg',
   'MySQL': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg',
   'Express': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg',
-  'Mediapipe': 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/google-camera.svg', // Fallback or specific icon
+  'Mediapipe': 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mediapipe.svg', // Correct Mediapipe icon
   'AI': 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/openai.svg', // Representative icon
 }
 
@@ -24,7 +25,7 @@ const PROJECTS = [
     number: '01',
     name: 'NeoLearn',
     subtitle: 'Interactive Learning Platform',
-    tech: ['React', 'Three.js', 'Node.js', 'Express', 'Tailwind'],
+    tech: ['React', 'Three.js', 'Node.js', 'Express'],
     image: '/projects/Neolearn.png',
     link: 'https://adixdd-neurolearn.netlify.app/',
     description: 'An interactive platform bridging the gap between theory and practical problem-solving through structured DSA practice and coding challenges.',
@@ -33,7 +34,7 @@ const PROJECTS = [
     number: '02',
     name: 'SignSense AI',
     subtitle: 'Computer Vision Application',
-    tech: ['Python', 'Flask', 'HTML5', 'CSS3', 'JavaScript', 'Mediapipe'],
+    tech: ['Python', 'Flask', 'HTML5', 'CSS3', 'JavaScript'],
     image: '/projects/SignSense Ai.png',
     link: 'https://adixdd-signsense-ai.netlify.app/',
     description: 'An accessibility-focused AI platform enabling real-time hand sign interpretation using computer vision and machine learning.',
@@ -42,7 +43,7 @@ const PROJECTS = [
     number: '03',
     name: 'Snake Game',
     subtitle: 'Classic Arcade Reimagined',
-    tech: ['HTML5', 'CSS3', 'JavaScript', 'MySQL'],
+    tech: ['HTML5', 'CSS3', 'JavaScript'],
     image: '/projects/Snake Game.png',
     link: 'https://adixdd-snakegame.netlify.app/',
     description: 'A classic arcade experience featuring real-time movement, collision detection, and score tracking with a responsive UI.',
@@ -51,7 +52,7 @@ const PROJECTS = [
     number: '04',
     name: 'Musify',
     subtitle: 'High-Performance Music Streaming',
-    tech: ['HTML5', 'CSS3', 'JavaScript', 'Node.js', 'AI'],
+    tech: ['HTML5', 'CSS3', 'JavaScript', 'Node.js'],
     image: '/projects/Musify.png',
     link: 'https://adixdd-musify.netlify.app/',
     description: 'An AI-integrated judge that evaluates your singing against a selected song and provides actionable feedback to help you improve.',
@@ -64,6 +65,7 @@ export default function Projects() {
   const [hoveredProject, setHoveredProject] = useState(null)
   const sectionRef = useRef(null)
   const isInView = useInView(sectionRef, { once: false, amount: 0.1, margin: "0px 0px -100px 0px" })
+  const lenis = useLenis()
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -92,6 +94,22 @@ export default function Projects() {
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
+
+  useEffect(() => {
+    if (selectedProject) {
+      if (lenis) lenis.stop()
+      document.body.style.overflow = 'hidden'
+    } else {
+      if (lenis) lenis.start()
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      if (lenis) lenis.start()
+      document.body.style.overflow = 'unset'
+    }
+  }, [selectedProject, lenis])
+
+  // ... (rest of component)
 
   const closeModal = () => setSelectedProject(null)
 
